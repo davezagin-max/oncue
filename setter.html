@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Make an interview code · OnCue</title>
+    <meta
+      name="description"
+      content="Set up a practice video interview for someone else: pick the questions, prep time, answer limit and retakes, then send them a code. They see each question only when it's asked."
+    />
+    <meta name="theme-color" content="#2459d6" />
+    <meta property="og:title" content="Make an interview code · OnCue" />
+    <meta property="og:description" content="Pick the questions and rules for someone's practice video interview, then send them a code. Questions stay hidden until they're asked." />
+    <meta property="og:type" content="website" />
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <script type="module" src="js/setter.js"></script>
+  </head>
+  <body>
+    <svg width="0" height="0" style="position: absolute" aria-hidden="true" focusable="false">
+      <symbol id="i-logo" viewBox="0 0 32 32">
+        <rect width="32" height="32" rx="8" fill="#2459d6" />
+        <circle cx="16" cy="16" r="8.5" fill="none" stroke="#fff" stroke-width="2.6" />
+        <circle cx="16" cy="16" r="3.4" fill="#ff6b5f" />
+      </symbol>
+      <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <path d="M6 6l12 12M18 6 6 18" />
+      </symbol>
+      <symbol id="i-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m6 15 6-6 6 6" />
+      </symbol>
+      <symbol id="i-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m6 9 6 6 6-6" />
+      </symbol>
+    </svg>
+
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a class="brand" href="index.html" aria-label="OnCue, practice an interview">
+          <svg class="brand-mark" aria-hidden="true"><use href="#i-logo" /></svg>
+          <span>OnCue</span>
+        </a>
+        <span class="spacer"></span>
+        <div class="topbar-right">
+          <a class="btn ghost sm" href="index.html">Practice an interview</a>
+        </div>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="screen" aria-labelledby="setter-title">
+        <div class="page-head">
+          <h1 id="setter-title" tabindex="-1">Make an interview code</h1>
+          <p class="lede">
+            Set up a practice interview for someone else. Pick the questions and the rules, then send them the code. They won’t see a question until it’s asked.
+          </p>
+          <p class="hint setter-intro-note">
+            Your choices are kept only in this tab until you close it.
+            <button class="link muted" id="s-reset" type="button">Start over</button>
+          </p>
+        </div>
+
+        <section class="card" aria-labelledby="pick-title">
+          <div class="card-head">
+            <span class="step" aria-hidden="true">1</span>
+            <h2 id="pick-title">Pick questions</h2>
+          </div>
+          <div class="pick-head">
+            <div class="lib-tabs" id="s-groups" role="group" aria-label="Question groups"></div>
+            <label class="field pick-role">
+              <span>Role type</span>
+              <select class="select sm" id="s-role"></select>
+            </label>
+          </div>
+          <div class="pick-note">
+            <p class="lib-note" id="s-group-note"></p>
+            <button class="link" id="s-select-all" type="button">Select all in this group</button>
+          </div>
+          <ul class="pick-list" id="s-pick-list" aria-label="Questions in this group"></ul>
+          <form class="setter-add" id="s-add-form" autocomplete="off" novalidate>
+            <label class="field">
+              <span>Add your own question</span>
+              <input class="input" id="s-add-text" placeholder="Type a question" />
+            </label>
+            <label class="field">
+              <span>Target (sec)</span>
+              <input class="input" id="s-add-target" type="number" min="0" max="600" step="5" inputmode="numeric" placeholder="Optional" />
+            </label>
+            <button class="btn" type="submit">Add</button>
+          </form>
+          <p class="code-error" id="s-add-error" role="alert" hidden></p>
+        </section>
+
+        <section class="card" aria-labelledby="order-title">
+          <div class="card-head">
+            <span class="step" aria-hidden="true">2</span>
+            <h2 id="order-title">Order and target times</h2>
+            <span class="hint" id="s-count"></span>
+            <button class="link muted" id="s-clear" type="button" hidden>Clear all</button>
+          </div>
+          <div class="field">
+            <span id="s-order-label">Order</span>
+            <div class="seg" role="group" aria-labelledby="s-order-label">
+              <button type="button" id="s-order-random" aria-pressed="true">Random</button>
+              <button type="button" id="s-order-shown" aria-pressed="false">In the order shown</button>
+            </div>
+          </div>
+          <p class="hint setter-hint" id="s-order-hint"></p>
+          <p class="hint setter-hint">A target is how long a good answer should take. It’s optional, and it shows only on the review screen afterward, never during the interview.</p>
+          <ol class="q-list sel-list" id="s-selected" aria-label="Questions in this interview"></ol>
+        </section>
+
+        <section class="card" aria-labelledby="rules-title">
+          <div class="card-head">
+            <span class="step" aria-hidden="true">3</span>
+            <h2 id="rules-title">Rules</h2>
+          </div>
+          <div class="grid-2">
+            <label class="field">
+              <span>Prep time per question (seconds, 0 to 120)</span>
+              <input class="input" type="number" id="s-think" min="0" max="120" step="5" inputmode="numeric" />
+            </label>
+            <label class="field">
+              <span>Answer limit (seconds, 30 to 300)</span>
+              <input class="input" type="number" id="s-answer" min="30" max="300" step="10" inputmode="numeric" />
+            </label>
+            <div class="field">
+              <span id="s-retake-label">Retakes</span>
+              <div class="seg" role="group" aria-labelledby="s-retake-label">
+                <button type="button" id="s-retake-off" aria-pressed="true">One take</button>
+                <button type="button" id="s-retake-on" aria-pressed="false">Allow retakes</button>
+              </div>
+            </div>
+            <label class="field">
+              <span>Interview name (they’ll see it)</span>
+              <input class="input" id="s-name" maxlength="60" placeholder="Practice 1" />
+            </label>
+          </div>
+        </section>
+
+        <div class="start-bar">
+          <p class="summary" id="s-estimate"></p>
+          <button class="btn primary lg" id="s-create" type="button">Create interview code</button>
+        </div>
+        <p class="code-error setter-create-error" id="s-create-error" role="alert" hidden></p>
+
+        <section class="card setter-output" id="s-output" aria-labelledby="output-title" hidden>
+          <h2 id="output-title" tabindex="-1">Interview code</h2>
+          <label class="visually-hidden" for="s-code">Interview code</label>
+          <textarea class="textarea code-input setter-code" id="s-code" readonly rows="5" spellcheck="false"></textarea>
+          <div class="row">
+            <button class="btn primary" id="s-copy" type="button">Copy code</button>
+            <button class="btn" id="s-copy-message" type="button">Copy as a message</button>
+            <span class="setter-status" id="s-copy-status" role="status"></span>
+          </div>
+          <p class="hint" id="s-howto"></p>
+          <dl class="setter-summary" id="s-summary"></dl>
+          <p class="hint">
+            Sent it? <button class="link" id="s-reset-after" type="button">Start over</button> clears this page, so the questions don’t stay on this computer.
+          </p>
+        </section>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        <span>OnCue is a free practice tool. Not affiliated with HireVue or any employer.</span>
+        <span>Codes are made in your browser · <a href="https://github.com/davezagin-max/oncue" rel="noopener">Source on GitHub</a></span>
+      </div>
+    </footer>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <noscript>
+      <p style="padding: 24px; text-align: center">Making an interview code needs JavaScript.</p>
+    </noscript>
+  </body>
+</html>

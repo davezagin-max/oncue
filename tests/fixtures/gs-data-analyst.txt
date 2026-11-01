@@ -1,0 +1,23 @@
+Analyst, Data Engineering & Analytics - Salt Lake City
+Goldman Sachs
+Location: Salt Lake City, Utah | Division: Engineering | Level: Analyst (2027 new graduate)
+
+About the team:
+Our Data Engineering & Analytics team builds the data platforms and reporting that our Asset & Wealth Management business relies on every day. You will partner with engineers, product owners and business stakeholders to turn raw data into reliable insights for clients and risk managers.
+
+What you will do:
+- Write and tune SQL queries and Python jobs that move and transform data in Snowflake.
+- Build dashboards in Tableau that help stakeholders monitor client activity and data quality.
+- Investigate data quality issues, find the root cause, and work with partner teams to fix them.
+- Document data definitions and controls so our reporting stays accurate and audit-ready.
+- Present findings to senior stakeholders in a clear, concise way.
+
+What we look for:
+- Bachelor's degree in Information Systems, Computer Science, Statistics or a related field.
+- Strong SQL skills and working knowledge of Python.
+- Attention to detail and a commitment to accuracy.
+- Ability to work in a fast-paced environment and manage multiple priorities.
+- Strong communication skills and the ability to collaborate across teams.
+- Interest in financial markets and how data supports business decisions.
+
+Goldman Sachs is an equal employment/affirmative action employer.

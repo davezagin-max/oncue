@@ -1,0 +1,11 @@
+.DS_Store
+node_modules/
+*.log
+.claude/
+.local-test/
+
+# Personal build notes: not part of the public site
+HireVue Practice Studio - Build Spec for Claude.md
+
+# Sources of the separate claude.ai pages (personal; not part of the OnCue site)
+practice-studio/

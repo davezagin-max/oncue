@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>OnCue · Video interview practice</title>
+    <meta
+      name="description"
+      content="Practice one-way video interviews like HireVue: add your questions, get timed prep, one retake, a surprise curveball, and watch your answers back. Everything stays in your browser."
+    />
+    <meta name="theme-color" content="#2459d6" />
+    <meta property="og:title" content="OnCue · Video interview practice" />
+    <meta
+      property="og:description"
+      content="Free practice for one-way video interviews: your questions, timed prep, one retake, a surprise curveball, and playback. Recordings never leave your browser."
+    />
+    <meta property="og:type" content="website" />
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <script type="module" src="js/app.js"></script>
+  </head>
+  <body>
+    <svg width="0" height="0" style="position: absolute" aria-hidden="true" focusable="false">
+      <symbol id="i-logo" viewBox="0 0 32 32">
+        <rect width="32" height="32" rx="8" fill="#2459d6" />
+        <circle cx="16" cy="16" r="8.5" fill="none" stroke="#fff" stroke-width="2.6" />
+        <circle cx="16" cy="16" r="3.4" fill="#ff6b5f" />
+      </symbol>
+      <symbol id="i-upload" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 15V4" /><path d="m7 9 5-5 5 5" /><path d="M5 15v3a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-3" />
+      </symbol>
+      <symbol id="i-file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" /><path d="M14 3v5h5" /><path d="M9 13h6M9 17h6" />
+      </symbol>
+      <symbol id="i-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 7h16" /><path d="M10 11v6M14 11v6" /><path d="M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12" /><path d="M9 7V4h6v3" />
+      </symbol>
+      <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <path d="M6 6l12 12M18 6 6 18" />
+      </symbol>
+      <symbol id="i-camera" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="6" width="13" height="12" rx="2" /><path d="m16 10 5-3v10l-5-3" />
+      </symbol>
+      <symbol id="i-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m6 15 6-6 6 6" />
+      </symbol>
+      <symbol id="i-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m6 9 6 6 6-6" />
+      </symbol>
+    </svg>
+
+    <header class="topbar">
+      <div class="topbar-inner">
+        <button class="brand" id="brand" type="button" aria-label="OnCue, back to setup">
+          <svg class="brand-mark" aria-hidden="true"><use href="#i-logo" /></svg>
+          <span>OnCue</span>
+        </button>
+        <div class="topbar-mid" id="topbar-progress" hidden>
+          <span class="progress-text" id="progress-text"></span>
+          <div class="progress" id="progress-bar" role="progressbar" aria-label="Interview progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <span></span>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <button class="btn ghost sm" id="btn-leave" type="button" hidden>Leave interview</button>
+        </div>
+      </div>
+    </header>
+
+    <main id="main">
+      <!-- ============ 1. SETUP ============ -->
+      <section class="screen" id="screen-setup" aria-labelledby="setup-title">
+        <div class="page-head">
+          <h1 id="setup-title" tabindex="-1">Practice your video interview</h1>
+          <p class="lede">
+            Record your answers one question at a time, with a prep timer and one retake, just like a one-way video interview. Then watch them back.
+            Your recordings stay in this browser.
+          </p>
+        </div>
+
+        <section class="card code-card" id="code-entry" aria-labelledby="code-entry-title">
+          <div class="code-row">
+            <div class="code-text">
+              <h2 id="code-entry-title">Got an interview code?</h2>
+              <p class="hint">If someone set up an interview for you, paste their code. You won’t see the questions until each one comes up.</p>
+              <p class="hint">Setting one up for someone else? <a class="setter-link" href="setter.html">Make an interview code</a></p>
+            </div>
+            <button class="btn" id="btn-code-open" type="button" aria-expanded="false" aria-controls="code-box">Enter code</button>
+          </div>
+          <div class="code-box" id="code-box" hidden>
+            <label class="visually-hidden" for="code-input">Interview code</label>
+            <textarea class="textarea code-input" id="code-input" rows="3" placeholder="HV1-…" spellcheck="false" autocomplete="off" autocapitalize="off" aria-describedby="code-error"></textarea>
+            <p class="code-error" id="code-error" role="alert" hidden></p>
+            <div class="row">
+              <button class="btn sm primary" id="btn-code-use" type="button">Use this code</button>
+              <button class="btn sm ghost" id="btn-code-cancel" type="button">Cancel</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="card coded-card" id="coded-card" hidden aria-labelledby="coded-title">
+          <p class="coded-kicker">Interview from a code</p>
+          <h2 id="coded-title"></h2>
+          <ul class="coded-facts" id="coded-facts"></ul>
+          <p class="hint" id="coded-note"></p>
+          <button class="link muted" id="btn-code-remove" type="button">Remove this code</button>
+        </section>
+
+        <section class="card" id="card-posting" aria-labelledby="posting-title">
+          <div class="card-head">
+            <span class="step" aria-hidden="true">1</span>
+            <h2 id="posting-title">Job posting <span class="optional">optional</span></h2>
+          </div>
+
+          <div id="posting-empty">
+            <label class="dropzone" id="dropzone" for="posting-file">
+              <svg class="icon" aria-hidden="true"><use href="#i-upload" /></svg>
+              <strong>Upload the job posting as a PDF</strong>
+              <span class="hint">Drop it here or click to choose a file. It helps pick likely questions and your curveball.</span>
+            </label>
+            <input type="file" id="posting-file" accept="application/pdf,.pdf" class="visually-hidden" tabindex="-1" />
+            <div class="q-links">
+              <button class="link" id="btn-paste-open" type="button">Paste the job description instead</button>
+            </div>
+          </div>
+
+          <div id="posting-loaded" hidden>
+            <div class="file-chip">
+              <svg class="icon" aria-hidden="true"><use href="#i-file" /></svg>
+              <div class="file-info">
+                <div class="file-name" id="posting-name"></div>
+                <div class="file-meta" id="posting-meta"></div>
+              </div>
+              <button class="btn sm" id="btn-posting-view" type="button">View</button>
+              <button class="icon-btn" id="btn-posting-remove" type="button" aria-label="Remove job posting" title="Remove">
+                <svg class="icon" aria-hidden="true"><use href="#i-trash" /></svg>
+              </button>
+            </div>
+          </div>
+          <p class="status-line" id="posting-status" role="status" hidden></p>
+          <div class="paste-box" id="paste-box" hidden>
+            <label class="visually-hidden" for="paste-text">Job description</label>
+            <textarea class="textarea" id="paste-text" placeholder="Paste the job description here"></textarea>
+            <div class="row">
+              <button class="btn sm primary" id="btn-paste-use" type="button">Use this text</button>
+              <button class="btn sm ghost" id="btn-paste-cancel" type="button">Cancel</button>
+            </div>
+          </div>
+
+          <div class="detected grid-3">
+            <label class="field">
+              <span>Company</span>
+              <input class="input" id="f-company" autocomplete="organization" placeholder="e.g. Goldman Sachs" maxlength="80" />
+            </label>
+            <label class="field">
+              <span>Role</span>
+              <input class="input" id="f-role" placeholder="e.g. Data Analyst" maxlength="100" />
+            </label>
+            <label class="field">
+              <span>Role type</span>
+              <select class="select" id="f-family"></select>
+            </label>
+          </div>
+        </section>
+
+        <section class="card" id="card-questions" aria-labelledby="questions-title">
+          <div class="card-head">
+            <span class="step" aria-hidden="true">2</span>
+            <h2 id="questions-title">Your questions</h2>
+            <button class="link" id="btn-examples" type="button">Browse examples</button>
+          </div>
+          <div class="q-empty" id="q-empty">
+            <strong>No questions yet? That's fine.</strong>
+            We'll ask the questions most likely to come up for this role, without showing them first.
+          </div>
+          <ol class="q-list" id="q-list" aria-label="Your questions"></ol>
+          <form class="q-add" id="q-add-form" autocomplete="off">
+            <label class="visually-hidden" for="q-add-input">New question</label>
+            <input class="input" id="q-add-input" placeholder="Type a question and press Enter" maxlength="400" />
+            <button class="btn" type="submit">Add</button>
+          </form>
+          <div class="q-links">
+            <button class="link muted" id="btn-bulk" type="button">Paste a list of questions</button>
+            <button class="link muted" id="btn-clear" type="button" hidden>Clear all</button>
+          </div>
+        </section>
+
+        <section class="card" id="card-settings" aria-labelledby="settings-title">
+          <div class="card-head">
+            <span class="step" aria-hidden="true">3</span>
+            <h2 id="settings-title">Interview settings</h2>
+          </div>
+          <div class="grid-3">
+            <label class="field"><span>Prep time</span><select class="select" id="s-prep"></select></label>
+            <label class="field"><span>Time to answer</span><select class="select" id="s-answer"></select></label>
+            <label class="field"><span>Retakes per question</span><select class="select" id="s-retakes"></select></label>
+          </div>
+          <div style="margin-top: 10px">
+            <div class="check static" id="likely-row">
+              <span class="check-text" style="flex: 1">
+                <strong id="likely-label">Likely questions</strong>
+                <span class="hint" id="likely-hint"></span>
+              </span>
+              <label class="visually-hidden" for="s-likely">Number of likely questions</label>
+              <select class="select sm" id="s-likely" style="width: auto"></select>
+            </div>
+            <label class="check">
+              <input type="checkbox" id="s-curveball" />
+              <span class="check-text">
+                <strong>Add a surprise curveball question</strong>
+                <span class="hint">One unexpected question related to the role. You won't see it until it comes up.</span>
+              </span>
+            </label>
+            <label class="check">
+              <input type="checkbox" id="s-speak" />
+              <span class="check-text">
+                <strong>Read each question out loud</strong>
+                <span class="hint">Plays through your computer's current sound output.</span>
+              </span>
+            </label>
+          </div>
+        </section>
+
+        <div class="start-bar">
+          <p class="summary" id="setup-summary"></p>
+          <button class="btn primary lg" id="btn-to-check" type="button">Continue to camera check</button>
+        </div>
+
+        <section class="history" id="history" hidden aria-labelledby="history-title">
+          <h2 id="history-title">Past practice sessions</h2>
+          <ul class="history-list" id="history-list"></ul>
+          <p class="hint" id="history-note" style="margin-top: 8px">Saved only in this browser.</p>
+        </section>
+      </section>
+
+      <!-- ============ 2. DEVICE CHECK ============ -->
+      <section class="screen wide" id="screen-check" hidden aria-labelledby="check-title">
+        <div class="page-head">
+          <h1 id="check-title" tabindex="-1">Check your camera and microphone</h1>
+          <p class="lede">Make sure you can see yourself and the mic bar moves when you talk. Using Bluetooth headphones? Connect them now.</p>
+        </div>
+        <div class="check-grid">
+          <div>
+            <div class="stage" id="check-stage">
+              <video id="check-video" class="mirror" autoplay muted playsinline></video>
+              <video id="check-playback" class="contain" playsinline controls hidden></video>
+              <div class="audio-only-face" id="check-audio-only" hidden>No camera found. You can still practice with audio only.</div>
+              <div class="stage-empty" id="check-empty">
+                <div>
+                  <svg class="icon" aria-hidden="true"><use href="#i-camera" /></svg>
+                  <p id="check-empty-text">Your camera preview will show here.</p>
+                  <button class="btn primary" id="btn-allow" type="button" style="margin-top: 14px">Allow camera and microphone</button>
+                </div>
+              </div>
+              <div class="stage-badge" id="check-badge" hidden><span class="rec-dot"></span><span id="check-badge-text"></span></div>
+            </div>
+            <div class="callout warn" id="check-error" role="alert" hidden style="margin-top: 12px">
+              <strong id="check-error-title"></strong><br /><span id="check-error-text"></span>
+            </div>
+          </div>
+
+          <div class="card device-form" style="margin: 0">
+            <label class="field"><span>Camera <em class="tick" id="tick-camera" hidden>Working</em></span><select class="select" id="d-camera" disabled></select></label>
+            <label class="field"><span>Microphone <em class="tick" id="tick-mic" hidden>We can hear you</em></span><select class="select" id="d-mic" disabled></select></label>
+            <div class="field">
+              <span class="label" id="d-meter-label">Mic level</span>
+              <div class="meter" id="d-meter" role="meter" aria-labelledby="d-meter-label" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span></span></div>
+              <span class="hint" id="d-meter-hint">Say something. The bar should move.</span>
+            </div>
+            <div class="field" id="d-speaker-field">
+              <label class="label" for="d-speaker">Speaker or headphones</label>
+              <select class="select" id="d-speaker" disabled></select>
+              <button class="link" id="btn-pick-speaker" type="button" hidden style="align-self: flex-start">Choose speaker or headphones…</button>
+              <span class="hint" id="d-speaker-note" hidden></span>
+            </div>
+            <div class="test-row">
+              <button class="btn sm" id="btn-test-sound" type="button">Play test sound</button>
+              <button class="btn sm" id="btn-test-record" type="button" disabled>Record a 5-second test</button>
+            </div>
+            <p class="callout" id="d-bt-note" hidden></p>
+            <details class="tips">
+              <summary>Tips for Bluetooth headphones and AirPods</summary>
+              <ul>
+                <li>Pair and connect them before you open this page, or click Refresh devices after they connect.</li>
+                <li>Choose them as the <strong>Speaker</strong> to hear your playback in them.</li>
+                <li>Using the headset as the <strong>Microphone</strong> works too, but many headsets switch to lower "call quality" sound while their mic is on. Your laptop's mic often sounds better on the recording.</li>
+                <li>If a device doesn't show up, check that it's selected in your computer's sound settings, then refresh.</li>
+              </ul>
+            </details>
+            <button class="link muted" id="btn-refresh-devices" type="button" style="align-self: flex-start">Refresh devices</button>
+          </div>
+        </div>
+        <div class="rules card" id="check-rules">
+          <h2 class="rules-title">Before you start</h2>
+          <ul class="rules-list" id="check-rules-list"></ul>
+        </div>
+        <div class="nav-row">
+          <button class="btn ghost" id="btn-check-back" type="button">Back</button>
+          <span class="spacer"></span>
+          <span class="hint" id="check-summary"></span>
+          <button class="btn" id="btn-practice" type="button" disabled>Try a practice question</button>
+          <button class="btn primary lg" id="btn-start" type="button" disabled>Start interview</button>
+        </div>
+      </section>
+
+      <!-- ============ 3. INTERVIEW ============ -->
+      <section class="screen wide" id="screen-interview" hidden aria-labelledby="iv-question">
+        <div class="banner" id="iv-banner" role="alert" hidden>
+          <span id="iv-banner-text"></span>
+        </div>
+
+        <div class="timer card" id="iv-timer">
+          <div class="timer-top">
+            <span class="timer-label" id="iv-timer-label"></span>
+            <span class="timer-value" id="iv-timer-value"></span>
+          </div>
+          <div class="timer-bar"><span id="iv-timer-bar"></span></div>
+        </div>
+
+        <div class="iv">
+          <section class="iv-panel" aria-label="Question">
+            <p class="iv-kicker" id="iv-kicker"></p>
+            <h2 class="iv-question" id="iv-question" tabindex="-1"></h2>
+            <p class="iv-note" id="iv-note"></p>
+          </section>
+
+          <div class="iv-media">
+            <div class="stage" id="iv-stage">
+              <video id="iv-live" class="mirror" autoplay muted playsinline></video>
+              <video id="iv-playback" class="contain" playsinline controls hidden></video>
+              <div class="audio-only-face" id="iv-audio-only" hidden>Recording audio only</div>
+              <div class="self-hidden" id="iv-self-hidden" hidden>Self-view is hidden. You're still on camera.</div>
+              <div class="countdown" id="iv-countdown" aria-hidden="true" hidden></div>
+              <div class="stage-badge" id="iv-badge" hidden><span class="rec-dot" id="iv-badge-dot"></span><span id="iv-badge-text"></span></div>
+              <button class="stage-toggle" id="iv-hide-self" type="button">Hide self-view</button>
+              <div class="stage-meter" id="iv-meter" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            </div>
+            <div class="iv-actions" id="iv-actions"></div>
+            <p class="iv-devices" id="iv-devices"></p>
+          </div>
+        </div>
+        <p class="visually-hidden" id="iv-live-region" aria-live="polite"></p>
+      </section>
+
+      <!-- ============ 4. REVIEW ============ -->
+      <section class="screen" id="screen-review" hidden aria-labelledby="review-title">
+        <div class="page-head">
+          <h1 id="review-title" tabindex="-1">Your interview is complete. Great job!</h1>
+          <p class="lede" id="review-sub"></p>
+          <p class="callout warn" id="review-unsaved" hidden></p>
+        </div>
+        <div class="callout selfcheck">
+          <strong>As you watch, ask yourself:</strong>
+          <ul>
+            <li>Did I answer the question within the first 20 seconds?</li>
+            <li>Was there a clear structure: situation, task, action, result?</li>
+            <li>Did I look at the camera, keep a steady pace, and avoid filler words?</li>
+          </ul>
+        </div>
+        <ol class="answers" id="answers"></ol>
+        <div class="review-actions">
+          <button class="btn primary" id="btn-resume" type="button" hidden>Resume interview</button>
+          <button class="btn primary" id="btn-again" type="button">Practice again</button>
+          <button class="btn" id="btn-edit" type="button">Change questions</button>
+          <span class="spacer"></span>
+          <button class="btn ghost" id="btn-delete-session" type="button">Delete this session</button>
+        </div>
+        <p class="hint review-storage" id="review-storage" hidden></p>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        <span>OnCue is a free practice tool. Not affiliated with HireVue or any employer.</span>
+        <span>Recordings never leave your browser · <a href="setter.html">Make an interview code</a> · <a href="https://github.com/davezagin-max/oncue" rel="noopener">Source on GitHub</a></span>
+      </div>
+    </footer>
+
+    <!-- ============ DIALOGS ============ -->
+    <dialog id="dlg-examples" aria-labelledby="dlg-examples-title">
+      <div class="dlg">
+        <div class="dlg-head">
+          <h2 id="dlg-examples-title">Example questions</h2>
+          <button class="icon-btn" type="button" data-close aria-label="Close"><svg class="icon"><use href="#i-x" /></svg></button>
+        </div>
+        <div class="dlg-body">
+          <div class="lib-tabs" id="lib-tabs" role="group" aria-label="Question groups"></div>
+          <p class="lib-note" id="lib-note"></p>
+          <ul class="lib-list" id="lib-list"></ul>
+        </div>
+        <div class="dlg-foot"><button class="btn" type="button" data-close>Done</button></div>
+      </div>
+    </dialog>
+
+    <dialog id="dlg-bulk" aria-labelledby="dlg-bulk-title">
+      <div class="dlg">
+        <div class="dlg-head">
+          <h2 id="dlg-bulk-title">Paste a list of questions</h2>
+          <button class="icon-btn" type="button" data-close aria-label="Close"><svg class="icon"><use href="#i-x" /></svg></button>
+        </div>
+        <div class="dlg-body">
+          <p class="hint" style="margin-bottom: 10px">One question per line. Numbers and bullets are removed automatically.</p>
+          <label class="visually-hidden" for="bulk-text">Questions</label>
+          <textarea class="textarea" id="bulk-text" rows="8" placeholder="Tell me about yourself.&#10;Why do you want to work here?&#10;Tell me about a time you worked on a team."></textarea>
+        </div>
+        <div class="dlg-foot">
+          <button class="btn ghost" type="button" data-close>Cancel</button>
+          <button class="btn primary" type="button" id="btn-bulk-add">Add questions</button>
+        </div>
+      </div>
+    </dialog>
+
+    <dialog id="dlg-posting" class="wide" aria-labelledby="dlg-posting-title">
+      <div class="dlg">
+        <div class="dlg-head">
+          <h2 id="dlg-posting-title">Job posting</h2>
+          <button class="icon-btn" type="button" data-close aria-label="Close"><svg class="icon"><use href="#i-x" /></svg></button>
+        </div>
+        <iframe class="pdf-frame" id="posting-frame" title="Job posting PDF" hidden></iframe>
+        <div class="dlg-body" id="posting-text-wrap" hidden><pre class="posting-text" id="posting-text"></pre></div>
+      </div>
+    </dialog>
+
+    <dialog id="dlg-confirm" aria-labelledby="dlg-confirm-title">
+      <div class="dlg">
+        <div class="dlg-head"><h2 id="dlg-confirm-title"></h2></div>
+        <div class="dlg-body"><p id="dlg-confirm-text" class="muted"></p></div>
+        <div class="dlg-foot">
+          <button class="btn ghost" type="button" id="dlg-confirm-cancel">Cancel</button>
+          <button class="btn primary" type="button" id="dlg-confirm-ok">OK</button>
+        </div>
+      </div>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <noscript>
+      <p style="padding: 24px; text-align: center">OnCue needs JavaScript to record your practice answers.</p>
+    </noscript>
+  </body>
+</html>

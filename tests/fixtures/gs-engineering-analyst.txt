@@ -1,0 +1,19 @@
+Engineering Analyst - Salt Lake City
+Goldman Sachs
+Division: Engineering | Program: 2027 Analyst Program
+
+Who we are:
+At Goldman Sachs, our Engineers don't just make things - we make things possible. Engineering is at the heart of our business, building scalable software and systems that power trading, risk management and client platforms.
+
+What you'll do:
+- Design, build and test software in Java and Python as part of an agile team.
+- Write clean code, take part in code reviews and improve our CI/CD pipelines.
+- Work with distributed systems, APIs and cloud services on AWS.
+- Debug production issues and collaborate with business partners to solve problems.
+
+Basic qualifications:
+- Bachelor's degree in Computer Science, Information Systems or a related field by June 2027.
+- Knowledge of data structures, algorithms and object-oriented design.
+- Strong problem-solving and communication skills; ability to work in a fast-paced environment.
+
+Goldman Sachs is an equal employment/affirmative action employer.

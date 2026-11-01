@@ -1,0 +1,19 @@
+Software Engineer II
+Summit Health
+
+Summit Health is a nonprofit health system of 24 hospitals and 200 clinics dedicated to helping patients live the healthiest lives possible.
+
+About the role:
+Join the team that builds the patient-facing apps and clinical integrations used by millions of patients and caregivers.
+
+Responsibilities:
+- Design and build services in Java and TypeScript, with React on the front end.
+- Build APIs that integrate with our EHR and scheduling systems.
+- Write unit tests, take part in code reviews and improve CI/CD pipelines.
+- Partner with product managers, designers and clinicians.
+
+Qualifications:
+- Bachelor's degree in Computer Science or equivalent experience; 2+ years of software development.
+- Experience with cloud platforms (Azure preferred), Git and agile teams.
+
+Summit Health is an equal opportunity employer.
